@@ -3,7 +3,9 @@ const slides = Array.from(track.children);
 const prevBtn = document.querySelector('.carousel-btn-left');
 const nextBtn = document.querySelector('.carousel-btn-right');
 
+const slideWidt = slides[0].getBoundingClientRect()
 const slideWidth = slides[0].getBoundingClientRect().width;
+
 const setSlidePosition = (slide, index) => {
     slide.style.left = slideWidth * index + 'px';
 };
@@ -29,11 +31,8 @@ const nextSlide = () => {
         moveSlide(track, currentSlide, firstSlide);
     }
 };
-let autoplayInterval = 3000;
-let autoplayTimer = setInterval(nextSlide, autoplayInterval);
 
-prevBtn.addEventListener('click', e => {
-    clearInterval(autoplayTimer);
+const prevSlide = () => {
     const currentSlide = track.querySelector('.current-slide');
     const prevSlide = currentSlide.previousElementSibling;
     if (prevSlide) {
@@ -42,6 +41,14 @@ prevBtn.addEventListener('click', e => {
         const lastSlide = slides[slides.length - 1];
         moveSlide(track, currentSlide, lastSlide);
     }
+}
+
+let autoplayInterval = 3000;
+let autoplayTimer = setInterval(nextSlide, autoplayInterval);
+
+prevBtn.addEventListener('click', e => {
+    clearInterval(autoplayTimer);
+    prevSlide();
     autoplayTimer = setInterval(nextSlide, autoplayInterval);
 });
 
